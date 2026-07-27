@@ -1,0 +1,36 @@
+<h1>Dashboard</h1>
+
+<div class="cards-grid">
+  @for (card of cardDefs; track card.key) {
+    <mat-card class="stat-card">
+      <mat-icon [style.color]="card.color">{{ card.icon }}</mat-icon>
+      <div>
+        <div class="stat-value">{{ cardValue(card.key) }}</div>
+        <div class="stat-label">{{ card.label }}</div>
+      </div>
+    </mat-card>
+  }
+</div>
+
+<div class="charts-grid">
+  <mat-card class="chart-card">
+    <h3>Complaint Status</h3>
+    <div class="chart-wrap">
+      <canvas baseChart [data]="statusChartData" type="doughnut" [options]="chartOptions"></canvas>
+    </div>
+  </mat-card>
+
+  <mat-card class="chart-card">
+    <h3>Monthly Trend</h3>
+    <div class="chart-wrap">
+      <canvas baseChart [data]="trendChartData" type="line" [options]="chartOptions"></canvas>
+    </div>
+  </mat-card>
+
+  <mat-card class="chart-card">
+    <h3>Priority Wise</h3>
+    <div class="chart-wrap">
+      <canvas baseChart [data]="priorityChartData" type="bar" [options]="chartOptions"></canvas>
+    </div>
+  </mat-card>
+</div>

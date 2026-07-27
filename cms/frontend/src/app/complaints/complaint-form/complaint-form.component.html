@@ -1,0 +1,48 @@
+<h1>New Complaint</h1>
+<mat-card class="form-card">
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="grid-2">
+      <mat-form-field appearance="outline">
+        <mat-label>Category</mat-label>
+        <mat-select formControlName="category">
+          @for (c of categories; track c) { <mat-option [value]="c">{{ c }}</mat-option> }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Priority</mat-label>
+        <mat-select formControlName="priority">
+          @for (p of priorities; track p) { <mat-option [value]="p">{{ p }}</mat-option> }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Subject</mat-label>
+      <input matInput formControlName="subject" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Description</mat-label>
+      <textarea matInput rows="4" formControlName="description"></textarea>
+    </mat-form-field>
+
+    <div class="grid-2">
+      <mat-form-field appearance="outline">
+        <mat-label>Address</mat-label>
+        <input matInput formControlName="address" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Landmark</mat-label>
+        <input matInput formControlName="landmark" />
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Expected Completion Date</mat-label>
+      <input matInput type="date" formControlName="expectedCompletionDate" />
+    </mat-form-field>
+
+    <button mat-flat-button color="primary" type="submit" [disabled]="submitting()">Submit Complaint</button>
+  </form>
+</mat-card>

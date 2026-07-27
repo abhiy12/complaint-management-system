@@ -1,0 +1,34 @@
+<h1>Live Executive Tracking</h1>
+
+@if (mapsReady() === null) {
+  <p class="hint">Loading map…</p>
+} @else if (mapsReady() === false) {
+  <div class="maps-unavailable">
+    <p><strong>Google Maps isn't configured yet.</strong></p>
+    <p class="hint">
+      Set a real key in <code>frontend/src/environments/environment.ts</code> →
+      <code>googleMapsApiKey</code>, then reload.
+    </p>
+  </div>
+  <div class="executive-fallback-list">
+    @for (e of executives(); track e.id) {
+      <div class="exec-row">
+        <span class="dot" [class.online]="e.is_online"></span>
+        <strong>{{ e.name }}</strong> — {{ e.zone }}
+        @if (markerPosition(e); as pos) {
+          <span class="coords">({{ pos.lat }}, {{ pos.lng }})</span>
+        } @else {
+          <span class="coords">no location reported yet</span>
+        }
+      </div>
+    }
+  </div>
+} @else {
+  <google-map [center]="center()" [zoom]="zoom" height="600px" width="100%">
+    @for (e of executives(); track e.id) {
+      @if (markerPosition(e); as pos) {
+        <map-marker [position]="pos" [title]="e.name + ' — ' + (e.is_online ? 'online' : 'offline')"></map-marker>
+      }
+    }
+  </google-map>
+}

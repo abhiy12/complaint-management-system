@@ -1,0 +1,41 @@
+<div class="header-row">
+  <h1>Executives</h1>
+  <div class="actions-row">
+    <a mat-stroked-button routerLink="/admin/executives/tracking">Live Tracking Map</a>
+    <a mat-flat-button color="primary" routerLink="/admin/executives/new">+ New Executive</a>
+  </div>
+</div>
+
+<table mat-table [dataSource]="executives()" class="mat-elevation-z1 full-width">
+  <ng-container matColumnDef="employee_id">
+    <th mat-header-cell *matHeaderCellDef>Employee ID</th>
+    <td mat-cell *matCellDef="let e">{{ e.employee_id }}</td>
+  </ng-container>
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>Name</th>
+    <td mat-cell *matCellDef="let e">{{ e.name }}</td>
+  </ng-container>
+  <ng-container matColumnDef="zone">
+    <th mat-header-cell *matHeaderCellDef>Zone</th>
+    <td mat-cell *matCellDef="let e">{{ e.zone }}</td>
+  </ng-container>
+  <ng-container matColumnDef="phone">
+    <th mat-header-cell *matHeaderCellDef>Phone</th>
+    <td mat-cell *matCellDef="let e">{{ e.phone }}</td>
+  </ng-container>
+  <ng-container matColumnDef="current_status">
+    <th mat-header-cell *matHeaderCellDef>Status</th>
+    <td mat-cell *matCellDef="let e"><mat-chip>{{ e.current_status }}</mat-chip></td>
+  </ng-container>
+  <ng-container matColumnDef="is_on_leave">
+    <th mat-header-cell *matHeaderCellDef>Leave</th>
+    <td mat-cell *matCellDef="let e">{{ e.is_on_leave ? 'On Leave' : '—' }}</td>
+  </ng-container>
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let e"><a mat-button color="primary" [routerLink]="['/admin/executives', e.id]">View</a></td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

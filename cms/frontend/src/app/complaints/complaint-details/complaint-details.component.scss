@@ -1,0 +1,4 @@
+.header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.info-card { padding: 20px; }
+.status-updater { display: flex; gap: 12px; align-items: center; margin-top: 16px; }

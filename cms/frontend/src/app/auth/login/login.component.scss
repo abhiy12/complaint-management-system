@@ -1,0 +1,13 @@
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #3f51b5 0%, #1e2532 100%);
+}
+.login-card { width: 380px; padding: 32px 28px; border-radius: 12px; }
+.subtitle { color: #6b7280; margin-bottom: 24px; }
+.full-width { width: 100%; }
+.row-between { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; font-size: 14px; }
+.submit-btn { height: 44px; }
+.error-text { color: #d32f2f; font-size: 13px; margin-bottom: 12px; }

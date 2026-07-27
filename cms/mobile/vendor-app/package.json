@@ -1,0 +1,20 @@
+{
+  "name": "cms-vendor-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Native Android shell for the Vendor portal. Wraps the shared Angular build (see ../../frontend) with its own app icon/name for a standalone Play Store listing.",
+  "scripts": {
+    "build:web": "cd ../../frontend && npm run build:prod",
+    "cap:add:android": "npm run build:web && npx cap add android",
+    "cap:sync": "npm run build:web && npx cap sync android",
+    "cap:open:android": "npx cap open android"
+  },
+  "dependencies": {
+    "@capacitor/android": "^6.1.2",
+    "@capacitor/core": "^6.1.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.1.2",
+    "typescript": "~5.5.4"
+  }
+}

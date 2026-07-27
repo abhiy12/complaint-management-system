@@ -1,0 +1,36 @@
+@if (complaint(); as c) {
+  <div class="header-row">
+    <h1>{{ c.complaint_number }} — {{ c.subject }}</h1>
+    <span class="status-badge" [style.background]="'#3f51b5'" [style.color]="'#fff'">{{ c.status }}</span>
+  </div>
+
+  <div class="grid-2">
+    <mat-card class="info-card">
+      <h3>Details</h3>
+      <p><strong>Vendor:</strong> {{ c.vendor_name }}</p>
+      <p><strong>Category:</strong> {{ c.category }} @if (c.complaint_type) { ({{ c.complaint_type }}) }</p>
+      <p><strong>Priority:</strong> {{ c.priority }}</p>
+      <p><strong>Description:</strong> {{ c.description || '—' }}</p>
+      <p><strong>Address:</strong> {{ c.address }} {{ c.landmark ? '(' + c.landmark + ')' : '' }}</p>
+      <p><strong>Assigned Executive:</strong> {{ c.executive_name || 'Not yet assigned' }}</p>
+      <p><strong>Created:</strong> {{ c.created_at | date: 'medium' }}</p>
+
+      @if (allowedNextStatuses().length) {
+        <div class="status-updater">
+          <mat-form-field appearance="outline">
+            <mat-label>Update Status</mat-label>
+            <mat-select [(ngModel)]="nextStatusModel" (ngModelChange)="nextStatus.set($event)">
+              @for (s of allowedNextStatuses(); track s) { <mat-option [value]="s">{{ s }}</mat-option> }
+            </mat-select>
+          </mat-form-field>
+          <button mat-flat-button color="primary" (click)="updateStatus()" [disabled]="!nextStatus()">Update</button>
+        </div>
+      }
+    </mat-card>
+
+    <mat-card class="info-card">
+      <h3>Timeline</h3>
+      <app-complaint-timeline [history]="c.history"></app-complaint-timeline>
+    </mat-card>
+  </div>
+}

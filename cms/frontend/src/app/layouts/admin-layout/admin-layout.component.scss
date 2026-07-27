@@ -1,0 +1,14 @@
+.shell { height: 100vh; }
+.sidebar { width: 240px; background: var(--cms-sidebar-bg); color: #fff; }
+.brand { padding: 20px 16px; font-weight: 700; font-size: 18px; }
+::ng-deep .sidebar .mat-mdc-list-item { color: #cbd2e0; }
+::ng-deep .sidebar .mat-mdc-list-item.active { background: rgba(255,255,255,0.08); color: #fff; }
+.topbar { background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+.topbar button[mat-icon-button] {
+  border: none !important;
+  border-radius: 50% !important;
+  margin-left: 4px;
+}
+.spacer { flex: 1; }
+.content { padding: 24px; }
+.menu-user { padding: 8px 16px; font-weight: 600; color: #555; }

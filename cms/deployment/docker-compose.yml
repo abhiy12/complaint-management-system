@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: complaint_management
+      POSTGRES_USER: ${DB_USER:-cms_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-change_me}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ../backend/database/schema.sql:/docker-entrypoint-initdb.d/1-schema.sql
+      - ../backend/database/seeds/seed.sql:/docker-entrypoint-initdb.d/2-seed.sql
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-cms_user}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: ../backend
+    restart: unless-stopped
+    env_file:
+      - ../backend/.env
+    environment:
+      # Overrides whatever DATABASE_URL is in .env — routes at the
+      # in-network Postgres container instead of an external host, since
+      # this compose file is for local/self-hosted use, not Neon/Supabase.
+      DATABASE_URL: postgresql://${DB_USER:-cms_user}:${DB_PASSWORD:-change_me}@postgres:5432/complaint_management
+      DB_SSL_REJECT_UNAUTHORIZED: "false"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "5000:5000"
+    volumes:
+      - ../backend/uploads:/usr/src/app/uploads
+      - ../backend/logs:/usr/src/app/logs
+
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    depends_on:
+      - api
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ../frontend/dist:/usr/share/nginx/html:ro
+
+volumes:
+  postgres_data:

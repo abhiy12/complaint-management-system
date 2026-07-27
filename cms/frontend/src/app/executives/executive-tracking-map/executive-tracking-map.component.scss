@@ -1,0 +1,14 @@
+.maps-unavailable {
+  background: #fff8e1;
+  border: 1px solid #ffe082;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+.maps-unavailable code { background: rgba(0,0,0,0.06); padding: 1px 6px; border-radius: 4px; }
+.executive-fallback-list { display: flex; flex-direction: column; gap: 8px; }
+.exec-row { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: #fff; border-radius: 6px; border: 1px solid #eee; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: #9e9e9e; }
+.dot.online { background: #43a047; }
+.coords { color: #6b7280; font-size: 12px; margin-left: auto; }
+.hint { color: #6b7280; font-size: 13px; margin-bottom: 12px; }

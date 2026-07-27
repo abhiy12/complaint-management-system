@@ -1,0 +1,34 @@
+<mat-sidenav-container class="shell">
+  <mat-sidenav mode="side" opened class="sidebar">
+    <div class="brand">CMS Admin</div>
+    <mat-nav-list>
+      @for (item of navItems; track item.route) {
+        <a mat-list-item [routerLink]="item.route" routerLinkActive="active">
+          <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+          <span matListItemTitle>{{ item.label }}</span>
+        </a>
+      }
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar class="topbar">
+      <span class="spacer"></span>
+      <button mat-icon-button [matBadge]="3" matBadgeColor="warn" [routerLink]="'/admin/notifications'">
+        <mat-icon>notifications</mat-icon>
+      </button>
+      <button mat-icon-button [matMenuTriggerFor]="profileMenu">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      <mat-menu #profileMenu="matMenu">
+        <div class="menu-user">{{ auth.currentUser()?.name }}</div>
+        <a mat-menu-item routerLink="/admin/profile">Profile</a>
+        <button mat-menu-item (click)="logout()">Logout</button>
+      </mat-menu>
+    </mat-toolbar>
+
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

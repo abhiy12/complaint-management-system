@@ -1,0 +1,64 @@
+<div class="header-row">
+  <h1>Complaints</h1>
+  <a mat-flat-button color="primary" routerLink="/admin/complaints/new">+ New Complaint</a>
+</div>
+
+<div class="filters">
+  <mat-form-field appearance="outline">
+    <mat-label>Search</mat-label>
+    <input matInput [(ngModel)]="searchModel" (ngModelChange)="search.set($event); onFilterChange()" placeholder="Complaint # or subject" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Status</mat-label>
+    <mat-select [(ngModel)]="statusModel" (ngModelChange)="statusFilter.set($event); onFilterChange()">
+      <mat-option value="">All</mat-option>
+      @for (s of statuses; track s) { <mat-option [value]="s">{{ s }}</mat-option> }
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<table mat-table [dataSource]="complaints()" class="mat-elevation-z1 full-width">
+  <ng-container matColumnDef="complaint_number">
+    <th mat-header-cell *matHeaderCellDef>Complaint #</th>
+    <td mat-cell *matCellDef="let c">{{ c.complaint_number }}</td>
+  </ng-container>
+  <ng-container matColumnDef="subject">
+    <th mat-header-cell *matHeaderCellDef>Subject</th>
+    <td mat-cell *matCellDef="let c">{{ c.subject }}</td>
+  </ng-container>
+  <ng-container matColumnDef="vendor_name">
+    <th mat-header-cell *matHeaderCellDef>Vendor</th>
+    <td mat-cell *matCellDef="let c">{{ c.vendor_name }}</td>
+  </ng-container>
+  <ng-container matColumnDef="priority">
+    <th mat-header-cell *matHeaderCellDef>Priority</th>
+    <td mat-cell *matCellDef="let c">{{ c.priority }}</td>
+  </ng-container>
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef>Status</th>
+    <td mat-cell *matCellDef="let c">
+      <span class="status-badge" [style.background]="statusColor(c.status)" [style.color]="'#fff'">{{ c.status }}</span>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="executive_name">
+    <th mat-header-cell *matHeaderCellDef>Executive</th>
+    <td mat-cell *matCellDef="let c">{{ c.executive_name || '—' }}</td>
+  </ng-container>
+  <ng-container matColumnDef="created_at">
+    <th mat-header-cell *matHeaderCellDef>Created</th>
+    <td mat-cell *matCellDef="let c">{{ c.created_at | date: 'mediumDate' }}</td>
+  </ng-container>
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let c">
+      <a mat-button color="primary" [routerLink]="['/admin/complaints', c.id]">View</a>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<mat-paginator [length]="total()" [pageSize]="pageSize()" [pageIndex]="pageIndex()"
+  [pageSizeOptions]="[10, 20, 50]" (page)="onPage($event)"></mat-paginator>

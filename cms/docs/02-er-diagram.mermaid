@@ -1,0 +1,226 @@
+erDiagram
+    ROLES ||--o{ ROLE_PERMISSIONS : has
+    PERMISSIONS ||--o{ ROLE_PERMISSIONS : grants
+    ROLES ||--o{ USERS : assigned_to
+    USERS ||--o| VENDOR_USERS : profile_extends
+    USERS ||--o| EXECUTIVES : profile_extends
+    VENDORS ||--o{ VENDOR_USERS : employs
+    VENDORS ||--o{ COMPLAINTS : raised_by
+    VENDOR_USERS ||--o{ COMPLAINTS : creates
+    EXECUTIVES ||--o{ COMPLAINTS : assigned_to
+    COMPLAINTS ||--o{ COMPLAINT_HISTORY : logs
+    COMPLAINTS ||--o{ COMPLAINT_IMAGES : has
+    COMPLAINTS ||--o{ COMPLAINT_FILES : has
+    EXECUTIVES ||--o{ EXECUTIVE_LOCATIONS : reports
+    EXECUTIVES ||--o{ LEAVE_REQUESTS : applies
+    USERS ||--o{ NOTIFICATIONS : receives
+    USERS ||--o{ AUDIT_LOGS : performs
+    USERS ||--o{ ACTIVITY_LOGS : performs
+    USERS ||--o{ REFRESH_TOKENS : owns
+    USERS ||--o{ PASSWORD_RESETS : requests
+    USERS ||--o{ COMPLAINT_HISTORY : actor
+
+    ROLES {
+        int id PK
+        string name
+        string description
+        datetime created_at
+    }
+
+    PERMISSIONS {
+        int id PK
+        string code
+        string description
+    }
+
+    ROLE_PERMISSIONS {
+        int id PK
+        int role_id FK
+        int permission_id FK
+    }
+
+    USERS {
+        int id PK
+        string name
+        string email UK
+        string phone
+        string password_hash
+        int role_id FK
+        int vendor_id FK "nullable, set for vendor-scoped roles"
+        enum status "active|inactive"
+        datetime last_login_at
+        datetime created_at
+        datetime updated_at
+    }
+
+    VENDORS {
+        int id PK
+        string vendor_code UK
+        string vendor_name
+        string company_name
+        string gst_number
+        string address
+        string city
+        string state
+        string country
+        string pin_code
+        string email
+        string phone
+        string contact_person
+        string logo_path
+        enum status "active|inactive"
+        datetime created_at
+        datetime updated_at
+    }
+
+    VENDOR_USERS {
+        int id PK
+        int user_id FK UK
+        int vendor_id FK
+        string department
+        enum role "vendor_admin|vendor_sub_user"
+        enum status
+    }
+
+    EXECUTIVES {
+        int id PK
+        int user_id FK UK
+        string employee_id UK
+        string photo_path
+        string address
+        string department
+        string zone
+        string skills
+        string vehicle_number
+        int experience_years
+        enum current_status "available|busy|offline"
+        decimal current_latitude
+        decimal current_longitude
+        boolean is_online
+        boolean is_on_leave
+        datetime created_at
+    }
+
+    COMPLAINTS {
+        int id PK
+        string complaint_number UK
+        int vendor_id FK
+        int vendor_user_id FK
+        string category
+        string complaint_type
+        enum priority "low|medium|high|critical|emergency"
+        string subject
+        text description
+        string address
+        string landmark
+        decimal latitude
+        decimal longitude
+        int assigned_executive_id FK "nullable"
+        enum status "open|assigned|accepted|rejected|started|reached_site|in_progress|waiting_for_parts|completed|closed|cancelled"
+        text remarks
+        date expected_completion_date
+        datetime created_at
+        datetime updated_at
+    }
+
+    COMPLAINT_HISTORY {
+        int id PK
+        int complaint_id FK
+        int actor_user_id FK
+        string from_status
+        string to_status
+        text remarks
+        datetime created_at
+    }
+
+    COMPLAINT_IMAGES {
+        int id PK
+        int complaint_id FK
+        string file_path
+        string uploaded_by_role
+        datetime created_at
+    }
+
+    COMPLAINT_FILES {
+        int id PK
+        int complaint_id FK
+        string file_path
+        string file_type
+        int file_size_bytes
+        datetime created_at
+    }
+
+    EXECUTIVE_LOCATIONS {
+        bigint id PK
+        int executive_id FK
+        decimal latitude
+        decimal longitude
+        datetime recorded_at
+    }
+
+    LEAVE_REQUESTS {
+        int id PK
+        int executive_id FK
+        date leave_from
+        date leave_to
+        string leave_type
+        text reason
+        enum approval_status "pending|approved|rejected"
+        text remarks
+        int approved_by FK "nullable, references users.id"
+        datetime created_at
+    }
+
+    NOTIFICATIONS {
+        int id PK
+        int user_id FK
+        string title
+        text message
+        string event_type
+        boolean is_read
+        datetime created_at
+    }
+
+    AUDIT_LOGS {
+        int id PK
+        int user_id FK
+        string module
+        string action
+        string ip_address
+        json old_value
+        json new_value
+        datetime created_at
+    }
+
+    ACTIVITY_LOGS {
+        int id PK
+        int user_id FK
+        string activity
+        json metadata
+        datetime created_at
+    }
+
+    REFRESH_TOKENS {
+        int id PK
+        int user_id FK
+        string token_hash
+        boolean is_revoked
+        datetime expires_at
+        datetime created_at
+    }
+
+    PASSWORD_RESETS {
+        int id PK
+        int user_id FK
+        string token_hash
+        boolean is_used
+        datetime expires_at
+        datetime created_at
+    }
+
+    SETTINGS {
+        int id PK
+        string key UK
+        string value
+        string description
+    }

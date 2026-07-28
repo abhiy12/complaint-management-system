@@ -59,7 +59,7 @@ services:
     rootDir: frontend
     plan: free
     buildCommand: npm install && npm run build:prod
-    staticPublishPath: dist/cms-frontend/browser
+    staticPublishPath: dist/cms-frontend
     routes:
       - type: rewrite
         source: /*

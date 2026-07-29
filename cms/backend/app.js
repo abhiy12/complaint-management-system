@@ -19,6 +19,12 @@ app.use('/uploads', express.static('uploads'));
 app.use('/api', apiLimiter);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.get('/', (req, res) => {
+  res.json({
+    message: 'Complaint Management System API is running',
+    status: 'ok'
+  });
+});
 
 app.get('/health', (req, res) => res.json({ status: 'ok', env: env.NODE_ENV }));
 

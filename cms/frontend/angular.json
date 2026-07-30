@@ -32,22 +32,21 @@
           },
           "configurations": {
             "production": {
-  "fileReplacements": [
-    {
-      "replace": "src/environments/environment.ts",
-      "with": "src/environments/environment.prod.ts"
-    }
-  ],
-  "budgets": [
-    {
-      "type": "initial",
-      "maximumWarning": "1mb",
-      "maximumError": "2mb"
-    }
-  ],
-  "outputHashing": "all",
-  "serviceWorker": "ngsw-config.json"
-}
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "1mb",
+                  "maximumError": "2mb"
+                }
+              ],
+              "outputHashing": "all"
+            },
             "development": {
               "optimization": false,
               "sourceMap": true
@@ -56,7 +55,7 @@
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
               "buildTarget": "cms-frontend:build:production"
